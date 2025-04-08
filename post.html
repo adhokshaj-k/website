@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Bratt's</title>
+    <link rel="stylesheet" href='./asset/css/styles.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <style>
+        .blog-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #000000;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .blog-post img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .blog-post pre {
+            background:black;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .blog-post code {
+            background: #000000;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">Bratt's</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <a href="blog.html" class="back-link">← Back to Blog</a>
+            <div id="blog-content" class="blog-post">
+                <!-- Blog content will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 BrattSec. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Configure marked to use highlight.js for code blocks
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            }
+        });
+
+        // Get the markdown file from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const markdownFile = urlParams.get('file');
+
+        if (markdownFile) {
+            // Fetch the markdown file
+            fetch(`/blogs/${markdownFile}`)
+                .then(response => response.text())
+                .then(markdown => {
+                    // Convert markdown to HTML
+                    const html = marked.parse(markdown);
+                    document.getElementById('blog-content').innerHTML = html;
+                    
+                    // Update the page title with the blog title
+                    const title = markdown.split('\n')[0].replace('#', '').trim();
+                    document.title = `${title} - Bratt's Blog`;
+                })
+                .catch(error => {
+                    console.error('Error loading blog post:', error);
+                    document.getElementById('blog-content').innerHTML = 
+                        '<p>Error loading blog post. Please try again later.</p>';
+                });
+        } else {
+            document.getElementById('blog-content').innerHTML = 
+                '<p>No blog post specified.</p>';
+        }
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bratt's - Blog</title>
+    <link rel="stylesheet" href='./asset/css/styles.css'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog ul {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .blog li {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .blog li:hover {
+            transform: translateX(5px);
+        }
+        
+        .blog a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .post-date {
+            display: block;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">Bratt's</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Blog</h1>
+            <p>Thoughts, insights, and technical articles</p>
+        </section>
+        <div class="social-links">
+            <a href="https://github.com/adhokshaj-k" target="_blank" title="GitHub"><img src="/asset/img/gh_logo.png"
+                    alt="GitHub"></a>
+            <a href="https://www.linkedin.com/in/adhokshaj-kulkarni-22931a1b4/" target="_blank" title="LinkedIn"><img
+                    src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
+                    alt="LinkedIn"></a>
+            <a href="https://app.hackthebox.com/profile/2177643" target="_blank" title="HackTheBox"><img
+                    src="/asset/img/htb_logo.jpeg" alt="HackTheBox"></a>
+            <a href="https://tryhackme.com/p/brattt" target="_blank" title="TryHackMe"><img
+                    src="https://tryhackme.com/img/favicon.png" alt="TryHackMe"></a>
+        </div>
+
+        <section class="blog">
+            <div>
+                <ul id="blog-list">
+                    <!-- Blog posts will be loaded here -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 BrattSec. All rights reserved.</p>
+    </footer>
+
+    <script src='/asset/js/script.js'></script>
+    <script>
+        // Function to get the title from markdown content
+        function getTitleFromMarkdown(markdown) {
+            const firstLine = markdown.split('\n')[0];
+            return firstLine.replace('#', '').trim();
+        }
+
+        // Function to format date
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Fetch and list all markdown files
+        fetch('/blogs/')
+            .then(response => response.text())
+            .then(html => {
+                // Create a temporary div to parse the HTML
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                
+                // Get all links that end with .md
+                const links = Array.from(tempDiv.querySelectorAll('a'))
+                    .filter(a => a.href.endsWith('.md'))
+                    .map(a => a.href.split('/').pop());
+                
+                // Fetch each markdown file to get its title and date
+                const blogList = document.getElementById('blog-list');
+                
+                links.forEach(filename => {
+                    fetch(`/blogs/${filename}`)
+                        .then(response => response.text())
+                        .then(markdown => {
+                            const title = getTitleFromMarkdown(markdown);
+                            const listItem = document.createElement('li');
+                            
+                            const link = document.createElement('a');
+                            link.href = `post.html?file=${filename}`;
+                            link.textContent = title;
+                            
+                            const dateSpan = document.createElement('span');
+                            dateSpan.className = 'post-date';
+                            dateSpan.textContent = formatDate(new Date());
+                            
+                            listItem.appendChild(link);
+                            listItem.appendChild(dateSpan);
+                            blogList.appendChild(listItem);
+                        })
+                        .catch(error => console.error('Error loading blog post:', error));
+                });
+            })
+            .catch(error => {
+                console.error('Error loading blog list:', error);
+                document.getElementById('blog-list').innerHTML = 
+                    '<li>Error loading blog posts. Please try again later.</li>';
+            });
+    </script>
+</body>
+
+</html>
