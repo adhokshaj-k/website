@@ -196,3 +196,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.replace(window.location.pathname.replace("index.html", ""));
   }
 
+  

@@ -790,7 +790,7 @@ footer {
     gap: 40px;
     padding: 60px;
     flex-wrap: wrap;
-  }
+    
 
   .say-hi {
     background-color: #3b3b3b;
@@ -801,11 +801,11 @@ footer {
     min-width: 300px;
     max-width: 500px;
     margin-bottom: 2-px;
+    box-shadow: 0 0 30px white;
+  }
   }
 
-  .say-hi h2, {
-    margin-top: 0;
-  }
+ 
 
   .con-btn {
     background-color: #000;
