@@ -649,17 +649,29 @@ footer {
 }
 
 .about-preview-text {
-    color: var(--text-secondary);
+    color: white
 }
 
 .about-preview-text p {
     margin-bottom: 1.5rem;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     line-height: 1.8;
+}
+.about-preview-text h3 {
+    font-size: 1.9rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+}
+.about-preview-text h1 {
+    font-size:6rem;
+    font-family: 'Bebas Neue', sans-serif;
+    margin-top: -30px;
+    letter-spacing: 10px;
+    margin-bottom: -20px;
 }
 
 .about-preview-image img {
-    width: 70%;
+    width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
@@ -769,3 +781,57 @@ footer {
     overflow-x: auto;
     border-radius: 5px;
 }
+
+
+.contact {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 60px;
+    flex-wrap: wrap;
+  }
+
+  .say-hi {
+    background-color: #3b3b3b;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    margin-bottom: 2-px;
+  }
+
+  .say-hi h2, {
+    margin-top: 0;
+  }
+
+  .con-btn {
+    background-color: #000;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 90px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .con-btn:hover {
+    background-color: #333;
+  }
+
+  .con-socials a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: white;
+  }
+
+  .con-email {
+    margin-top: 20px;
+    display: block;
+    color: white;
+  }
+
+  .say-hi p {
+    margin-bottom: 20px;
+  }

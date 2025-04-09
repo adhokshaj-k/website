@@ -191,3 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animate();
 }); 
+
+  if (window.location.pathname.endsWith("index.html")) {
+    window.location.replace(window.location.pathname.replace("index.html", ""));
+  }
+
